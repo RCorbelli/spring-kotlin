@@ -1,14 +1,22 @@
 package com.mercadolivro.service
 
+import com.mercadolivro.enums.CustomerStatus
+import com.mercadolivro.enums.Errors
+import com.mercadolivro.exception.NotFoundException
 import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.repository.CustomerRepository
 import org.springframework.stereotype.Service
 
 @Service
 class CustomerService(
-        val customerRepository: CustomerRepository
+        val customerRepository: CustomerRepository,
+        val bookService: BookService
 ) {
     val customers = mutableListOf<CustomerModel>()
+
+    fun create(customer: CustomerModel){
+        customerRepository.save(customer)
+    }
 
     fun getAll(name: String?): List<CustomerModel> {
         name?.let{
@@ -17,8 +25,8 @@ class CustomerService(
         return customerRepository.findAll().toList()
     }
 
-    fun getCustomerById(id: Int): CustomerModel{
-        return customerRepository.findById(id).orElseThrow()
+    fun findById(id: Int): CustomerModel{
+        return customerRepository.findById(id).orElseThrow{ NotFoundException(Errors.ML200.message.format(id), Errors.ML200.code) }
     }
 
     fun update(customer: CustomerModel){
@@ -29,14 +37,13 @@ class CustomerService(
     }
 
     fun delete(id: Int){
-        if(!customerRepository.existsById(id)){
-            throw Exception()
-        }
-        customerRepository.deleteById(id)
-    }
-
-    fun create(customer: CustomerModel){
+        val customer = findById(id)
+        bookService.deleteByCustomer(customer)
+        customer.status = CustomerStatus.INATIVO
         customerRepository.save(customer)
     }
 
+    fun emailAvailable(email: String): Boolean {
+       return !customerRepository.existsByEmail(email)
+    }
 }
