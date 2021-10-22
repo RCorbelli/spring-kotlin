@@ -20,12 +20,15 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation:2.5.5")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.5.5")
 	implementation("org.springframework.boot:spring-boot-starter-web:2.5.5")
+	implementation("org.springframework.boot:spring-boot-starter-security:2.5.5")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-
+	implementation ("io.jsonwebtoken:jjwt:0.2")
 	implementation("io.springfox:springfox-swagger2:2.9.2")
 	implementation("io.springfox:springfox-swagger-ui:2.9.2")
+	testImplementation("io.mockk:mockk:1.12.0")
+
 
 	implementation("org.flywaydb:flyway-core:8.0.2")
 

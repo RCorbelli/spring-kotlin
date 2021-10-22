@@ -11,6 +11,11 @@ data class PutCustomerRequest (
     var email: String
 ) {
     fun toCustomerModel(previusValue: CustomerModel): CustomerModel {
-        return CustomerModel(id = previusValue.id, name = this.name, email = this.email, status = previusValue.status)
+        return CustomerModel(
+            id = previusValue.id,
+            name = this.name,
+            email = this.email,
+            status = previusValue.status,
+            password = previusValue.password)
     }
 }

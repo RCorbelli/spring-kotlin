@@ -12,8 +12,14 @@ data class PostCustomerRequest (
     @field:Email(message = "E-mail inválido")
     @EmailAvailable
     var email: String,
+    @field:NotEmpty(message = "Senha deve ser informada")
+    var password: String,
 ){
     fun toCustomerModel(): CustomerModel {
-        return CustomerModel(name = this.name, email = this.email, status = CustomerStatus.ATIVO)
+        return CustomerModel(
+            name = this.name,
+            email = this.email,
+            status = CustomerStatus.ATIVO,
+            password = this.password)
     }
 }
